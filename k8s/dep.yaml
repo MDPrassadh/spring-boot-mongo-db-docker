@@ -133,7 +133,7 @@ kind: Service
 metadata:
   name: mongo
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: mongodb
   ports:
