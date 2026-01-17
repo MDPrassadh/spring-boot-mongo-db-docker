@@ -1,15 +1,8 @@
-# =========================
-# Namespace
-# =========================
 apiVersion: v1
 kind: Namespace
 metadata:
   name: prod
-
 ---
-# =========================
-# ConfigMap
-# =========================
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -17,11 +10,7 @@ metadata:
   namespace: prod
 data:
   username: springapp
-
 ---
-# =========================
-# Secret
-# =========================
 apiVersion: v1
 kind: Secret
 metadata:
@@ -30,11 +19,7 @@ metadata:
 type: Opaque
 stringData:
   password: devdb@123
-
 ---
-# =========================
-# Persistent Volume (cluster-scoped)
-# =========================
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -47,11 +32,7 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: /tmp/mongodata
-
 ---
-# =========================
-# Persistent Volume Claim
-# =========================
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -64,11 +45,7 @@ spec:
   resources:
     requests:
       storage: 100Mi
-
 ---
-# =========================
-# Spring Boot Deployment
-# =========================
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -102,11 +79,7 @@ spec:
                   key: password
             - name: MONGO_DB_HOSTNAME
               value: mongo
-
 ---
-# =========================
-# Spring Boot Service
-# =========================
 apiVersion: v1
 kind: Service
 metadata:
@@ -119,11 +92,7 @@ spec:
   ports:
     - port: 80
       targetPort: 8080
-
 ---
-# =========================
-# MongoDB ReplicaSet
-# =========================
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
@@ -161,11 +130,7 @@ spec:
           volumeMounts:
             - name: mongodb-pvc
               mountPath: /data/db
-
 ---
-# =========================
-# MongoDB Service
-# =========================
 apiVersion: v1
 kind: Service
 metadata:
